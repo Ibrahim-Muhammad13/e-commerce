@@ -13,6 +13,6 @@ class HomeController extends Controller
         if($userType == 1){
             return view('admin.index');
         }
-        return view('dashboard');
+        return view('home.index');
     }
 }
