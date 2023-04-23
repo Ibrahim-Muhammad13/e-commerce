@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AdminController;
 use App\Http\Controllers\HomeController;
 use Illuminate\Support\Facades\Route;
 
@@ -31,4 +32,9 @@ Route::get('/logout',function(){
     Session()->flush();
     return Redirect::to('/');
 })->name('logout');
-// Route::get('/home',[HomeController::class,'home']);
+
+Route::middleware(['auth:sanctum','isAdmin'])->group(function(){
+    Route::get('/view_category',[AdminController::class,'view_category']);
+    Route::post('/add_category',[AdminController::class,'add_category'])->name('add_category');
+    Route::get('/delete_category/{id}',[AdminController::class,'delete_category'])->name('delete_category');
+});
