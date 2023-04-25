@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\ProudctController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -37,4 +38,17 @@ Route::middleware(['auth:sanctum','isAdmin'])->group(function(){
     Route::get('/view_category',[AdminController::class,'view_category']);
     Route::post('/add_category',[AdminController::class,'add_category'])->name('add_category');
     Route::get('/delete_category/{id}',[AdminController::class,'delete_category'])->name('delete_category');
+
+    //product
+    Route::resource('product', ProudctController::class,[
+        'names' => [
+            'index' => 'product.index',
+            'create' => 'product.create',
+            'store' => 'product.store',
+            'show' => 'product.show',
+            'edit' => 'product.edit',
+            'update' => 'product.update',
+            'destroy' => 'product.destroy',
+        ]
+    ]);
 });
