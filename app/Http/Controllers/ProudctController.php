@@ -15,7 +15,8 @@ class ProudctController extends Controller
      */
     public function index()
     {
-        
+        $products = Product::all();
+        return view('admin.product.show_products',compact('products'));
         
     }
 
@@ -84,6 +85,9 @@ class ProudctController extends Controller
     public function edit($id)
     {
         //
+        $product = Product::find($id);
+        $category = Category::all();
+        return view('admin.product.edit_product',compact('product','category'));
     }
 
     /**
@@ -95,7 +99,29 @@ class ProudctController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+  //   return $request->all();   
+        $validate = $request->validate([
+            'title' => 'required',
+             'desc' => 'required',
+             'price' => 'required',
+             'category' => 'required',
+             'quantity' => 'required',
+      ]
+      );
+        $product = Product::find($id);
+        $product->title = $request->title;
+        $product->description = $request->desc;
+        $product->price = $request->price;
+        $product->category = $request->category;
+        $product->quantity = $request->quantity;
+       if($request->hasFile('img')){
+        $prodct_img = $request->img;
+        $img_name = time().'.'.$prodct_img->getClientOriginalExtension();
+        $request->img->move(public_path('product_img'),$img_name);
+        $product->image = $img_name;
+       }
+        $product->save();
+        return redirect('/product')->with('success','Product Updated Successfully');
     }
 
     /**
@@ -107,5 +133,8 @@ class ProudctController extends Controller
     public function destroy($id)
     {
         //
+        $product = Product::find($id);
+        $product->delete();
+        return redirect()->back()->with('success','Product Deleted Successfully');
     }
 }
