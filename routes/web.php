@@ -16,17 +16,15 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('home.index');
-});
+Route::get('/',[HomeController::class,'home'])->name('home');
 
-Route::middleware([
-    'auth:sanctum',
-    config('jetstream.auth_session'),
-    'verified'
-])->group(function () {
-    Route::get('/dashboard', [HomeController::class,'home'])->name('dashboard');
-});
+// Route::middleware([
+//     'auth:sanctum',
+//     config('jetstream.auth_session'),
+//     'verified'
+// ])->group(function () {
+//     Route::get('/dashboard', [HomeController::class,'home'])->name('dashboard');
+// });
 
 Route::get('/logout',function(){
     auth()->logout();
@@ -35,6 +33,7 @@ Route::get('/logout',function(){
 })->name('logout');
 
 Route::middleware(['auth:sanctum','isAdmin'])->group(function(){
+    Route::get('/dashboard',[AdminController::class,'index'])->name('admin');
     Route::get('/view_category',[AdminController::class,'view_category']);
     Route::post('/add_category',[AdminController::class,'add_category'])->name('add_category');
     Route::get('/delete_category/{id}',[AdminController::class,'delete_category'])->name('delete_category');

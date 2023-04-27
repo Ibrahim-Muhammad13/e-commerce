@@ -17,7 +17,7 @@ class AdminMiddleware
     public function handle(Request $request, Closure $next)
     {
         if(Auth()->user()->userType!=1){
-            return redirect('/dashboard')->with('faild','you are not an admin');
+            return redirect('/')->with('faild','you are not an admin');
         }
         return $next($request);
     }

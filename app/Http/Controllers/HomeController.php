@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Product;
 use Illuminate\Http\Request;
 
 class HomeController extends Controller
@@ -9,10 +10,7 @@ class HomeController extends Controller
     //
 
     public function home(){
-        $userType = \Auth::user()->userType;
-        if($userType == 1){
-            return view('admin.index');
-        }
-        return view('home.index');
+        $products = Product::paginate(4);
+        return view('home.index',compact('products'));
     }
 }
