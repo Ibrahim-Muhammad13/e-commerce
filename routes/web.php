@@ -51,3 +51,7 @@ Route::middleware(['auth:sanctum','isAdmin'])->group(function(){
         ]
     ]);
 });
+
+
+
+Route::get('/product_details/{id}',[HomeController::class,'product_details'])->name('product_details');
